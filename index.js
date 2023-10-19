@@ -26,6 +26,7 @@ async function run() {
     const DB = client.db("jasDB")
     const userCollection = DB.collection("userCollection")
     const brand_nameCollection = DB.collection("brand_nameCollection")
+    const carCollection = DB.collection("carCollection")
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
@@ -60,6 +61,13 @@ async function run() {
       res.send(result)
 
     })
+    app.post("/car", async(req, res)=>{
+      const newCar = req.body
+      console.log(newCar)
+      const result  =await carCollection.insertOne(newCar)
+      res.send(result)
+
+    })
 
 
 
@@ -76,32 +84,32 @@ async function run() {
 
     })
     
-    app.put("/edit/:editId", async(req, res)=>{
-      const id = req.params.editId
-      console.log("backend edit: ",id)
-      const givingId = new ObjectId(id)
-      const query = {_id : givingId}
-      const data = req.body
-      const updateData = {
-            $set:{
-              name : data.name,
-              price : data.price,
-              taste : data.taste,
-              photo : data.photo
-            }
-          }
-      const result = await cafeCollection.updateOne(query, updateData)
-      res.send(result)
-    })
+    // app.put("/edit/:editId", async(req, res)=>{
+    //   const id = req.params.editId
+    //   console.log("backend edit: ",id)
+    //   const givingId = new ObjectId(id)
+    //   const query = {_id : givingId}
+    //   const data = req.body
+    //   const updateData = {
+    //         $set:{
+    //           name : data.name,
+    //           price : data.price,
+    //           taste : data.taste,
+    //           photo : data.photo
+    //         }
+    //       }
+    //   const result = await cafeCollection.updateOne(query, updateData)
+    //   res.send(result)
+    // })
 
-    app.delete("/delete/:deleteId", async(req, res)=>{
-      const id = req.params.deleteId
-      console.log(id)
-      const givingId = new ObjectId(id)
-      const query = {_id : givingId}
-      const result = await cafeCollection.deleteOne(query)
-      res.send(result)
-    })
+    // app.delete("/delete/:deleteId", async(req, res)=>{
+    //   const id = req.params.deleteId
+    //   console.log(id)
+    //   const givingId = new ObjectId(id)
+    //   const query = {_id : givingId}
+    //   const result = await cafeCollection.deleteOne(query)
+    //   res.send(result)
+    // })
   } 
   catch(err){
     console.log("My error is : ",err)
