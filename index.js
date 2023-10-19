@@ -35,11 +35,7 @@ async function run() {
     app.get("/", (req, res)=>{
       res.send("I am from back end")
     })
-    app.get("/user", async(req, res)=>{
-      const cursor = userCollection.find()
-      const result =  await cursor.toArray()
-      res.send(result)
-    })
+
     app.get("/brand", async(req, res)=>{
       const cursor = brand_nameCollection.find()
       const result =  await cursor.toArray()
@@ -54,13 +50,7 @@ async function run() {
       res.send(result)
     })
 
-    app.post("/user", async(req, res)=>{
-      const newUser = req.body
-      console.log(newUser)
-      const result  =await userCollection.insertOne(newUser)
-      res.send(result)
 
-    })
     app.post("/car", async(req, res)=>{
       const newCar = req.body
       console.log(newCar)
