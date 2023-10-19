@@ -24,7 +24,6 @@ async function run() {
 
 
     const DB = client.db("jasDB")
-    const userCollection = DB.collection("userCollection")
     const brand_nameCollection = DB.collection("brand_nameCollection")
     const carCollection = DB.collection("carCollection")
 
@@ -37,6 +36,11 @@ async function run() {
     })
 
     app.get("/brand", async(req, res)=>{
+      const cursor = carCollection.find()
+      const result =  await cursor.toArray()
+      res.send(result)
+    })
+    app.get("/car", async(req, res)=>{
       const cursor = brand_nameCollection.find()
       const result =  await cursor.toArray()
       res.send(result)
