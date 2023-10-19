@@ -36,12 +36,12 @@ async function run() {
     })
 
     app.get("/brand", async(req, res)=>{
-      const cursor = carCollection.find()
+      const cursor = brand_nameCollection.find()
       const result =  await cursor.toArray()
       res.send(result)
     })
     app.get("/car", async(req, res)=>{
-      const cursor = brand_nameCollection.find()
+      const cursor = carCollection.find()
       const result =  await cursor.toArray()
       res.send(result)
     })
