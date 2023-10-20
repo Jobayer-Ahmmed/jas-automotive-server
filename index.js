@@ -26,6 +26,7 @@ async function run() {
     const DB = client.db("jasDB")
     const brand_nameCollection = DB.collection("brand_nameCollection")
     const carCollection = DB.collection("carCollection")
+    const userCollection = DB.collection("userCollection")
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
@@ -41,10 +42,22 @@ async function run() {
       res.send(result)
     })
     app.get("/car", async(req, res)=>{
+      // console.log("backend car")
       const cursor = carCollection.find()
       const result =  await cursor.toArray()
       res.send(result)
     })
+    app.get("/car-show/:brandName", async(req, res)=>{
+      const name = req.params.brandName
+      console.log("from backend: ", name)
+      const query = {brand : name}
+      const cursor = carCollection.find(query)
+      const result =  await cursor.toArray()
+      // const result =  carCollection.find(query)
+      res.send(result)
+    
+    })
+    
     app.get("/edit/:editId", async(req, res)=>{
       const id = req.params.editId
       console.log("from edit: ",id)
@@ -54,6 +67,14 @@ async function run() {
       res.send(result)
     })
 
+
+    app.post("/user", async(req, res)=>{
+      const newUser = req.body
+      console.log(newUser)
+      const result  =await userCollection.insertOne(newUser)
+      res.send(result)
+
+    })
 
     app.post("/car", async(req, res)=>{
       const newCar = req.body
