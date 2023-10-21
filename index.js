@@ -26,6 +26,7 @@ async function run() {
     const DB = client.db("jasDB")
     const brand_nameCollection = DB.collection("brand_nameCollection")
     const carCollection = DB.collection("carCollection")
+    const myCartCollection = DB.collection("carCollection")
     const userCollection = DB.collection("userCollection")
 
     // Send a ping to confirm a successful connection
@@ -57,11 +58,10 @@ async function run() {
       res.send(result)
     
     })
-    app.get("/details/:carId", async(req, res)=>{
-      const id = req.params.carId
+    app.get("/details/:carName", async(req, res)=>{
+      const carNameGet = req.params.carName
       console.log("from details: ", id)
-      const givingId = new ObjectId(id)
-      const query = {_id : givingId}
+      const query = {name : carNameGet}
       const result = await carCollection.findOne(query)
       res.send(result)
     })
@@ -102,7 +102,7 @@ async function run() {
     app.post("/my-cart", async(req, res)=>{
       const newCar = req.body
       console.log(newCar)
-      const result  =await carCollection.insertOne(newCar)
+      const result  =await myCartCollection.insertOne(newCar)
       res.send(result)
 
     })
