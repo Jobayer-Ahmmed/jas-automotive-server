@@ -26,7 +26,7 @@ async function run() {
     const DB = client.db("jasDB")
     const brand_nameCollection = DB.collection("brand_nameCollection")
     const carCollection = DB.collection("carCollection")
-    const myCartCollection = DB.collection("carCollection")
+    const myCartCollection = DB.collection("myCartCollection")
     const userCollection = DB.collection("userCollection")
 
     // Send a ping to confirm a successful connection
@@ -58,20 +58,19 @@ async function run() {
       res.send(result)
     
     })
-    app.get("/details/:carName", async(req, res)=>{
-      const carNameGet = req.params.carName
+    app.get("/details/:carId", async(req, res)=>{
+      const id = req.params.carId
       console.log("from details: ", id)
-      const query = {name : carNameGet}
+      const givingId = new ObjectId(id)
+      const query = {_id : givingId}
       const result = await carCollection.findOne(query)
       res.send(result)
     })
-    app.get("/my-cart/:carId", async(req, res)=>{
-      const id = req.params.carId
-      console.log("from mycart: ", id)
-      // const givingId = new ObjectId(id)
-      // const query = {_id : givingId}
-      // const result = await carCollection.findOne(query)
-      // res.send(result)
+
+    app.get("/my-cart", async(req, res)=>{
+      const cursor = myCartCollection.find()
+      const result =  await cursor.toArray()
+      res.send(result)
     })
 
     app.get("/edit/:editId", async(req, res)=>{
@@ -79,7 +78,7 @@ async function run() {
       console.log("from edit: ",id)
       const givingId = new ObjectId(id)
       const query = {_id : givingId}
-      const result = await cafeCollection.findOne(query)
+      const result = await carCollection.findOne(query)
       res.send(result)
     })
 
@@ -106,6 +105,16 @@ async function run() {
       res.send(result)
 
     })
+
+   app.delete("/my-cart/:deleteId", async(req, res)=>{
+      const id = req.params.deleteId
+      console.log(id)
+      const givingId = new ObjectId(id)
+      const query = {_id : givingId}
+      const result = await myCartCollection.deleteOne(query)
+      res.send(result)
+    })
+
 
 
 
