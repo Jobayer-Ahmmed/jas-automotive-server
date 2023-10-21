@@ -53,9 +53,15 @@ async function run() {
       const query = {brand : name}
       const cursor = carCollection.find(query)
       const result =  await cursor.toArray()
-      // const result =  carCollection.find(query)
       res.send(result)
     
+    })
+    app.get("/details/:name", async(req, res)=>{
+      const carName = req.params.name
+      console.log("from carname: ", carName)
+      const query = {name : carName}
+      const result = await carCollection.findOne(query)
+      res.send(result)
     })
     
     app.get("/edit/:editId", async(req, res)=>{
