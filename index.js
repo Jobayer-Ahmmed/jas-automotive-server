@@ -105,6 +105,26 @@ async function run() {
       res.send(result)
 
     })
+ 
+    app.put("/car/:updateId", async(req, res)=>{
+      const id = req.params.updateId
+      console.log("backend edit: ",id)
+      const givingId = new ObjectId(id)
+      const query = {_id : givingId}
+      const data = req.body
+      const updateData = {
+            $set:{
+              name : data.name,
+              price : data.price,
+              taste : data.brand,
+              rating : data.rating,
+              type : data.type,
+              photo : data.photo
+            }
+          }
+      const result = await carCollection.updateOne(query, updateData)
+      res.send(result)
+    })
 
    app.delete("/my-cart/:deleteId", async(req, res)=>{
       const id = req.params.deleteId
@@ -115,51 +135,6 @@ async function run() {
       res.send(result)
     })
 
-
-
-
-
-
-
-    app.get("/cafe", async(req, res)=>{
-      const cursor = cafeCollection.find()
-      const result =  await cursor.toArray()
-      res.send(result)
-    })
-    app.post("/cafe", async(req, res)=>{
-      const newCafe = req.body
-      console.log(newCafe)
-      const result  =await cafeCollection.insertOne(newCafe)
-      res.send(result)
-
-    })
-    
-    // app.put("/edit/:editId", async(req, res)=>{
-    //   const id = req.params.editId
-    //   console.log("backend edit: ",id)
-    //   const givingId = new ObjectId(id)
-    //   const query = {_id : givingId}
-    //   const data = req.body
-    //   const updateData = {
-    //         $set:{
-    //           name : data.name,
-    //           price : data.price,
-    //           taste : data.taste,
-    //           photo : data.photo
-    //         }
-    //       }
-    //   const result = await cafeCollection.updateOne(query, updateData)
-    //   res.send(result)
-    // })
-
-    // app.delete("/delete/:deleteId", async(req, res)=>{
-    //   const id = req.params.deleteId
-    //   console.log(id)
-    //   const givingId = new ObjectId(id)
-    //   const query = {_id : givingId}
-    //   const result = await cafeCollection.deleteOne(query)
-    //   res.send(result)
-    // })
   } 
   catch(err){
     console.log("My error is : ",err)
