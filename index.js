@@ -37,6 +37,7 @@ async function run() {
     })
 
     app.get("/brand", async(req, res)=>{
+      console.log("from brand")
       const cursor = brand_nameCollection.find()
       const result =  await cursor.toArray()
       res.send(result)
@@ -64,12 +65,13 @@ async function run() {
       const result = await carCollection.findOne(query)
       res.send(result)
     })
-    app.get("/my-cart/:name", async(req, res)=>{
-      const carName = req.params.name
-      console.log("mycart carname: ", carName)
-      const query = {name : carName}
-      const result = await carCollection.findOne(query)
-      res.send(result)
+    app.get("/my-cart/:carId", async(req, res)=>{
+      const id = req.params.carId
+      console.log("from mycart: ", id)
+      // const givingId = new ObjectId(id)
+      // const query = {_id : givingId}
+      // const result = await carCollection.findOne(query)
+      // res.send(result)
     })
 
     app.get("/edit/:editId", async(req, res)=>{
@@ -97,6 +99,16 @@ async function run() {
       res.send(result)
 
     })
+    app.post("/my-cart", async(req, res)=>{
+      const newCar = req.body
+      console.log(newCar)
+      const result  =await carCollection.insertOne(newCar)
+      res.send(result)
+
+    })
+
+
+
 
 
 
@@ -148,12 +160,4 @@ run().catch(console.dir);
 
 
 app.listen(port, console.log(`Port ${port} is running`))
-
-
-
-
-
-
-
-
 
