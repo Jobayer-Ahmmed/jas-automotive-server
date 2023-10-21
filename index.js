@@ -56,14 +56,22 @@ async function run() {
       res.send(result)
     
     })
-    app.get("/details/:name", async(req, res)=>{
+    app.get("/details/:carId", async(req, res)=>{
+      const id = req.params.carId
+      console.log("from details: ", id)
+      const givingId = new ObjectId(id)
+      const query = {_id : givingId}
+      const result = await carCollection.findOne(query)
+      res.send(result)
+    })
+    app.get("/my-cart/:name", async(req, res)=>{
       const carName = req.params.name
-      console.log("from carname: ", carName)
+      console.log("mycart carname: ", carName)
       const query = {name : carName}
       const result = await carCollection.findOne(query)
       res.send(result)
     })
-    
+
     app.get("/edit/:editId", async(req, res)=>{
       const id = req.params.editId
       console.log("from edit: ",id)
