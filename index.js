@@ -82,15 +82,6 @@ async function run() {
       res.send(result)
     })
 
-
-    app.post("/user", async(req, res)=>{
-      const newUser = req.body
-      console.log(newUser)
-      const result  =await userCollection.insertOne(newUser)
-      res.send(result)
-
-    })
-
     app.post("/car", async(req, res)=>{
       const newCar = req.body
       console.log(newCar)
