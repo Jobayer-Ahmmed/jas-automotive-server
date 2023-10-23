@@ -37,6 +37,12 @@ async function run() {
       res.send("I am from back end")
     })
 
+    app.get("/user", async(req, res)=>{
+      const cursor = userCollection.find()
+      const result =  await cursor.toArray()
+      res.send(result)
+    })
+
     app.get("/brand", async(req, res)=>{
       console.log("from brand")
       const cursor = brand_nameCollection.find()
@@ -67,8 +73,11 @@ async function run() {
       res.send(result)
     })
 
-    app.get("/my-cart", async(req, res)=>{
-      const cursor = myCartCollection.find()
+    app.get("/my-cart/:username", async(req, res)=>{
+      const getUsername= req.params.username
+      console.log("from backend: ", getUsername)
+      const query = {username : getUsername}
+      const cursor = myCartCollection.find(query)
       const result =  await cursor.toArray()
       res.send(result)
     })
@@ -82,6 +91,13 @@ async function run() {
       res.send(result)
     })
 
+    app.post("/user", async(req, res)=>{
+      const newUser = req.body
+      console.log(newUser)
+      const result  =await userCollection.insertOne(newUser)
+      res.send(result)
+
+    })
     app.post("/car", async(req, res)=>{
       const newCar = req.body
       console.log(newCar)
