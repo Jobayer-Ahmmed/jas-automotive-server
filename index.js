@@ -73,10 +73,9 @@ async function run() {
       res.send(result)
     })
 
-    app.get("/my-cart/:username", async(req, res)=>{
-      const getUsername= req.params.username
-      console.log("from backend: ", getUsername)
-      const query = {username : getUsername}
+    app.get("/my-cart/:email", async(req, res)=>{
+      const getEmail= req.params.email
+      const query = {email : getEmail}
       const cursor = myCartCollection.find(query)
       const result =  await cursor.toArray()
       res.send(result)
